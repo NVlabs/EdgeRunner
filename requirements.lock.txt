@@ -1,0 +1,40 @@
+numpy == 1.26.4
+scipy == 1.13.1
+ninja == 1.10.2.3
+Pillow == 10.4.0
+pandas == 1.4.2
+imageio == 2.34.0
+imageio-ffmpeg == 0.4.8
+opencv-python == 4.8.0.76
+scikit-image == 0.19.3
+scikit-learn == 1.0.2
+
+torch == 2.4.1
+torchvision == 0.19.1
+einops == 0.4.1
+
+transformers == 4.46.2
+accelerate == 0.34.2
+diffusers == 0.30.2
+huggingface-hub == 0.24.6
+safetensors == 0.4.5
+
+rich == 13.4.2
+tqdm == 4.66.6
+tyro == 0.6.4
+rembg == 2.0.55
+gradio == 4.44.1
+omegaconf == 2.3.0
+
+plyfile == 0.7.4
+pygltflib == 1.16.0
+pymeshlab == 2023.12.post1
+trimesh == 4.0.5
+xatlas == 0.0.6
+PyMCubes == 0.1.2
+
+kiui == 0.2.13
+pybind11 == 2.11.1
+megfile == 3.1.3
+
+wandb == 0.13.7
