@@ -126,8 +126,6 @@ class Options:
     checkpointing: bool = True
     # random seed
     seed: int = 0
-    # use deepspeed
-    use_deepspeed: bool = False
     # evaluate mode
     eval_mode: Literal['none', 'loss', 'generate'] = 'loss'
     # debug eval in train (skip training and only do evaluation)

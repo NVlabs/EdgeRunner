@@ -130,22 +130,16 @@ def main():
     )
 
     # optimizer
-    if opt.use_deepspeed:
-        # deepspeed will handle optimizer and scheduler
-        optimizer = DummyOptim(model.parameters(), lr=opt.lr)
-        scheduler = DummyScheduler(optimizer)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=opt.lr, weight_decay=0.01, betas=(0.9, 0.95))
 
-    else:
-        optimizer = torch.optim.AdamW(model.parameters(), lr=opt.lr, weight_decay=0.01, betas=(0.9, 0.95))
-  
-        total_steps = opt.num_epochs * len(train_dataloader) // opt.gradient_accumulation_steps
-        def _lr_lambda(current_step, warmup_ratio=opt.warmup_ratio, num_cycles=0.5, min_ratio=0.1):
-            progress = current_step / max(1, total_steps)
-            if warmup_ratio > 0 and progress < warmup_ratio:
-                return progress / warmup_ratio
-            progress = (progress - warmup_ratio) / (1 - warmup_ratio)
-            return max(min_ratio, min_ratio + (1 - min_ratio) * 0.5 * (1.0 + math.cos(math.pi * float(num_cycles) * 2.0 * progress)))
-        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=_lr_lambda)
+    total_steps = opt.num_epochs * len(train_dataloader) // opt.gradient_accumulation_steps
+    def _lr_lambda(current_step, warmup_ratio=opt.warmup_ratio, num_cycles=0.5, min_ratio=0.1):
+        progress = current_step / max(1, total_steps)
+        if warmup_ratio > 0 and progress < warmup_ratio:
+            return progress / warmup_ratio
+        progress = (progress - warmup_ratio) / (1 - warmup_ratio)
+        return max(min_ratio, min_ratio + (1 - min_ratio) * 0.5 * (1.0 + math.cos(math.pi * float(num_cycles) * 2.0 * progress)))
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=_lr_lambda)
 
     # accelerate
     model, optimizer, train_dataloader, test_dataloader, scheduler = accelerator.prepare(
